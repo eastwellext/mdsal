@@ -179,14 +179,14 @@
             <groupId>org.opendaylight.mdsal</groupId>
             <artifactId>mdsal-yanglib-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.opendaylight.mdsal</groupId>
-            <artifactId>mdsal-yanglib-rfc7895</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.opendaylight.mdsal</groupId>
-            <artifactId>mdsal-yanglib-rfc8525</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.opendaylight.mdsal</groupId>-->
+            <!--<artifactId>mdsal-yanglib-rfc7895</artifactId>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.opendaylight.mdsal</groupId>-->
+            <!--<artifactId>mdsal-yanglib-rfc8525</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.opendaylight.mdsal</groupId>

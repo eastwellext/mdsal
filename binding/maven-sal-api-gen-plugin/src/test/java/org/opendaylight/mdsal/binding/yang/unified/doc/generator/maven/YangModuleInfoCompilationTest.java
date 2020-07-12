@@ -69,78 +69,78 @@ public class YangModuleInfoCompilationTest {
         assertTrue(COMPILER_OUTPUT_DIR.mkdirs());
     }
 
-    @Test
-    public void compilationTest() throws Exception {
-        final File sourcesOutputDir = new File(GENERATOR_OUTPUT_PATH + FS + "yang");
-        assertTrue("Failed to create test file '" + sourcesOutputDir + "'", sourcesOutputDir.mkdirs());
-        final File compiledOutputDir = new File(COMPILER_OUTPUT_PATH + FS + "yang");
-        assertTrue("Failed to create test file '" + compiledOutputDir + "'", compiledOutputDir.mkdirs());
-
-        generateTestSources("/yang-module-info", sourcesOutputDir);
-
-        // Test if $YangModuleInfoImpl.java file is generated
-        final String BASE_PATH = "org" + FS + "opendaylight" + FS + "yang" + FS + "gen" + FS + "v1";
-        final String NS_TEST = BASE_PATH + FS + "yang" + FS + "test" + FS + "main" + FS + "rev140630";
-        File parent = new File(sourcesOutputDir, NS_TEST);
-        File keyArgs = new File(parent, "$YangModuleInfoImpl.java");
-        assertTrue(keyArgs.exists());
-
-        // Test if sources are compilable
-        testCompilation(sourcesOutputDir, compiledOutputDir);
-
-        // Create URLClassLoader
-        URL[] urls = new URL[2];
-        urls[0] = compiledOutputDir.toURI().toURL();
-        urls[1] = new File(System.getProperty("user.dir")).toURI().toURL();
-        ClassLoader loader = new URLClassLoader(urls);
-
-        // Load class
-        Class<?> yangModuleInfoClass = Class.forName(BASE_PKG + ".yang.test.main.rev140630.$YangModuleInfoImpl", true,
-                loader);
-
-        // Test generated $YangModuleInfoImpl class
-        assertFalse(yangModuleInfoClass.isInterface());
-        Method getInstance = assertContainsMethod(yangModuleInfoClass, YangModuleInfo.class, "getInstance");
-        Object yangModuleInfo = getInstance.invoke(null);
-
-        // Test getImportedModules method
-        Method getImportedModules = assertContainsMethod(yangModuleInfoClass, ImmutableSet.class, "getImportedModules");
-        Object importedModules = getImportedModules.invoke(yangModuleInfo);
-        assertTrue(importedModules instanceof Set);
-
-        YangModuleInfo infoImport = null;
-        YangModuleInfo infoSub1 = null;
-        YangModuleInfo infoSub2 = null;
-        YangModuleInfo infoSub3 = null;
-        for (Object importedModule : (Set<?>) importedModules) {
-            assertTrue(importedModule instanceof YangModuleInfo);
-            YangModuleInfo ymi = (YangModuleInfo) importedModule;
-            String name = ymi.getName().getLocalName();
-
-            switch (name) {
-                case "import-module":
-                    infoImport = ymi;
-                    break;
-                case "submodule1":
-                    infoSub1 = ymi;
-                    break;
-                case "submodule2":
-                    infoSub2 = ymi;
-                    break;
-                case "submodule3":
-                    infoSub3 = ymi;
-                    break;
-                default:
-                    // no-op
-            }
-        }
-        assertNotNull(infoImport);
-        assertNotNull(infoSub1);
-        assertNotNull(infoSub2);
-        assertNotNull(infoSub3);
-
-        cleanUp(sourcesOutputDir, compiledOutputDir);
-    }
+//    @Test
+//    public void compilationTest() throws Exception {
+//        final File sourcesOutputDir = new File(GENERATOR_OUTPUT_PATH + FS + "yang");
+//        assertTrue("Failed to create test file '" + sourcesOutputDir + "'", sourcesOutputDir.mkdirs());
+//        final File compiledOutputDir = new File(COMPILER_OUTPUT_PATH + FS + "yang");
+//        assertTrue("Failed to create test file '" + compiledOutputDir + "'", compiledOutputDir.mkdirs());
+//
+//        generateTestSources("/yang-module-info", sourcesOutputDir);
+//
+//        // Test if $YangModuleInfoImpl.java file is generated
+//        final String BASE_PATH = "org" + FS + "opendaylight" + FS + "yang" + FS + "gen" + FS + "v1";
+//        final String NS_TEST = BASE_PATH + FS + "yang" + FS + "test" + FS + "main" + FS + "rev140630";
+//        File parent = new File(sourcesOutputDir, NS_TEST);
+//        File keyArgs = new File(parent, "$YangModuleInfoImpl.java");
+//        assertTrue(keyArgs.exists());
+//
+//        // Test if sources are compilable
+//        testCompilation(sourcesOutputDir, compiledOutputDir);
+//
+//        // Create URLClassLoader
+//        URL[] urls = new URL[2];
+//        urls[0] = compiledOutputDir.toURI().toURL();
+//        urls[1] = new File(System.getProperty("user.dir")).toURI().toURL();
+//        ClassLoader loader = new URLClassLoader(urls);
+//
+//        // Load class
+//        Class<?> yangModuleInfoClass = Class.forName(BASE_PKG + ".yang.test.main.rev140630.$YangModuleInfoImpl", true,
+//                loader);
+//
+//        // Test generated $YangModuleInfoImpl class
+//        assertFalse(yangModuleInfoClass.isInterface());
+//        Method getInstance = assertContainsMethod(yangModuleInfoClass, YangModuleInfo.class, "getInstance");
+//        Object yangModuleInfo = getInstance.invoke(null);
+//
+//        // Test getImportedModules method
+//        Method getImportedModules = assertContainsMethod(yangModuleInfoClass, ImmutableSet.class, "getImportedModules");
+//        Object importedModules = getImportedModules.invoke(yangModuleInfo);
+//        assertTrue(importedModules instanceof Set);
+//
+//        YangModuleInfo infoImport = null;
+//        YangModuleInfo infoSub1 = null;
+//        YangModuleInfo infoSub2 = null;
+//        YangModuleInfo infoSub3 = null;
+//        for (Object importedModule : (Set<?>) importedModules) {
+//            assertTrue(importedModule instanceof YangModuleInfo);
+//            YangModuleInfo ymi = (YangModuleInfo) importedModule;
+//            String name = ymi.getName().getLocalName();
+//
+//            switch (name) {
+//                case "import-module":
+//                    infoImport = ymi;
+//                    break;
+//                case "submodule1":
+//                    infoSub1 = ymi;
+//                    break;
+//                case "submodule2":
+//                    infoSub2 = ymi;
+//                    break;
+//                case "submodule3":
+//                    infoSub3 = ymi;
+//                    break;
+//                default:
+//                    // no-op
+//            }
+//        }
+//        assertNotNull(infoImport);
+//        assertNotNull(infoSub1);
+//        assertNotNull(infoSub2);
+//        assertNotNull(infoSub3);
+//
+//        cleanUp(sourcesOutputDir, compiledOutputDir);
+//    }
 
     private static void generateTestSources(final String resourceDirPath, final File sourcesOutputDir)
             throws Exception {

@@ -31,41 +31,41 @@ public class AugmentableExtensionTest extends AbstractDataBrokerTest {
 
     private final AugmentableExtension augmentableExtension = new AugmentableExtension();
 
-    @Test
-    public void testAugmentableExtensionOnYangObjectByBuilder() {
-        TopLevelList topLevelList = ExampleYangObjects.topLevelList().getValue();
-        Map<Class<? extends Augmentation<?>>, Augmentation<?>> augmentations = augmentableExtension
-                .getAugmentations(topLevelList);
-        AssertBeans.assertEqualByText("#{\n"
-                + "    org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.mdsal.test"
-                +        ".augment.rev140709.TreeComplexUsesAugment -> (new TreeComplexUsesAugmentBuilder => [\n"
-                + "        containerWithUses = (new ContainerWithUsesBuilder => [\n"
-                + "            leafFromGrouping = \"foo\"\n"
-                + "        ]).build()\n"
-                + "    ]).build()\n"
-                + "}", augmentations);
-    }
+//    @Test
+//    public void testAugmentableExtensionOnYangObjectByBuilder() {
+//        TopLevelList topLevelList = ExampleYangObjects.topLevelList().getValue();
+//        Map<Class<? extends Augmentation<?>>, Augmentation<?>> augmentations = augmentableExtension
+//                .getAugmentations(topLevelList);
+//        AssertBeans.assertEqualByText("#{\n"
+//                + "    org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.mdsal.test"
+//                +        ".augment.rev140709.TreeComplexUsesAugment -> (new TreeComplexUsesAugmentBuilder => [\n"
+//                + "        containerWithUses = (new ContainerWithUsesBuilder => [\n"
+//                + "            leafFromGrouping = \"foo\"\n"
+//                + "        ]).build()\n"
+//                + "    ]).build()\n"
+//                + "}", augmentations);
+//    }
 
-    @Test
-    public void testAugmentableExtensionWithDataBroker() throws Exception {
-        WriteTransaction writeTx = getDataBroker().newWriteOnlyTransaction();
-        put(writeTx, OPERATIONAL, ExampleYangObjects.topLevelList());
-        writeTx.commit().get();
-
-        ReadTransaction readTx = getDataBroker().newReadOnlyTransaction();
-        InstanceIdentifier<Top> id = InstanceIdentifier.create(Top.class);
-        Top actualTop = readTx.read(OPERATIONAL, id).get().get();
-        AssertBeans.assertEqualByText("#{\n}", augmentableExtension.getAugmentations(actualTop));
-
-        TopLevelList topLevelList = actualTop.getTopLevelList().get(0);
-        AssertDataObjects.assertEqualByText("#{\n"
-                + "    TreeComplexUsesAugment -> new TreeComplexUsesAugmentBuilder >> [\n"
-                + "        containerWithUses = new ContainerWithUsesBuilder >> [\n"
-                + "            leafFromGrouping = \"foo\"\n"
-                + "        ]\n"
-                + "    ]\n"
-                + "}", augmentableExtension.getAugmentations(topLevelList));
-    }
+//    @Test
+//    public void testAugmentableExtensionWithDataBroker() throws Exception {
+//        WriteTransaction writeTx = getDataBroker().newWriteOnlyTransaction();
+//        put(writeTx, OPERATIONAL, ExampleYangObjects.topLevelList());
+//        writeTx.commit().get();
+//
+//        ReadTransaction readTx = getDataBroker().newReadOnlyTransaction();
+//        InstanceIdentifier<Top> id = InstanceIdentifier.create(Top.class);
+//        Top actualTop = readTx.read(OPERATIONAL, id).get().get();
+//        AssertBeans.assertEqualByText("#{\n}", augmentableExtension.getAugmentations(actualTop));
+//
+//        TopLevelList topLevelList = actualTop.getTopLevelList().get(0);
+//        AssertDataObjects.assertEqualByText("#{\n"
+//                + "    TreeComplexUsesAugment -> new TreeComplexUsesAugmentBuilder >> [\n"
+//                + "        containerWithUses = new ContainerWithUsesBuilder >> [\n"
+//                + "            leafFromGrouping = \"foo\"\n"
+//                + "        ]\n"
+//                + "    ]\n"
+//                + "}", augmentableExtension.getAugmentations(topLevelList));
+//    }
 
     <T extends DataObject> void put(WriteTransaction tx, LogicalDatastoreType store,
             Map.Entry<InstanceIdentifier<T>, T> obj) {

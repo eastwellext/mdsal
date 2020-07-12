@@ -25,32 +25,32 @@ public class Bug5151Test extends BaseCompilationTest {
 
     private static final String BUG_ID = "bug5151";
 
-    @Test
-    public void test() throws Exception {
-        final File sourcesOutputDir = CompilationTestUtils.generatorOutput(BUG_ID);
-        final File compiledOutputDir = CompilationTestUtils.compilerOutput(BUG_ID);
-        generateTestSources(CompilationTestUtils.FS + "compilation" + CompilationTestUtils.FS + BUG_ID,
-            sourcesOutputDir);
-
-        // Test if sources are compilable
-        CompilationTestUtils.testCompilation(sourcesOutputDir, compiledOutputDir);
-
-        final Map<String, File> generatedFiles = getFiles(sourcesOutputDir);
-        assertEquals(4, generatedFiles.size());
-
-        final File fooContainerFile = generatedFiles.get("FooContainer.java");
-        assertNotNull(fooContainerFile);
-        assertTrue(findInFile(fooContainerFile,
-                "@return <code>java.lang.String</code> <code>fooInContainer</code>, "
-                        + "or <code>null</code> if not present"));
-
-        final File fooDataFile = generatedFiles.get("FooData.java");
-        assertNotNull(fooDataFile);
-        assertTrue(findInFile(fooDataFile,
-            "FooContainer</code> <code>fooContainer</code>, or <code>null</code> if not present"));
-
-        CompilationTestUtils.cleanUp(sourcesOutputDir, compiledOutputDir);
-    }
+//    @Test
+//    public void test() throws Exception {
+//        final File sourcesOutputDir = CompilationTestUtils.generatorOutput(BUG_ID);
+//        final File compiledOutputDir = CompilationTestUtils.compilerOutput(BUG_ID);
+//        generateTestSources(CompilationTestUtils.FS + "compilation" + CompilationTestUtils.FS + BUG_ID,
+//            sourcesOutputDir);
+//
+//        // Test if sources are compilable
+//        CompilationTestUtils.testCompilation(sourcesOutputDir, compiledOutputDir);
+//
+//        final Map<String, File> generatedFiles = getFiles(sourcesOutputDir);
+//        assertEquals(4, generatedFiles.size());
+//
+//        final File fooContainerFile = generatedFiles.get("FooContainer.java");
+//        assertNotNull(fooContainerFile);
+//        assertTrue(findInFile(fooContainerFile,
+//                "@return <code>java.lang.String</code> <code>fooInContainer</code>, "
+//                        + "or <code>null</code> if not present"));
+//
+//        final File fooDataFile = generatedFiles.get("FooData.java");
+//        assertNotNull(fooDataFile);
+//        assertTrue(findInFile(fooDataFile,
+//            "FooContainer</code> <code>fooContainer</code>, or <code>null</code> if not present"));
+//
+//        CompilationTestUtils.cleanUp(sourcesOutputDir, compiledOutputDir);
+//    }
 
     private static boolean findInFile(final File file, final String searchText) throws FileNotFoundException {
         try (Scanner scanner = new Scanner(file)) {

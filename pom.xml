@@ -26,7 +26,7 @@
     <modules>
         <module>artifacts</module>
         <module>common</module>
-        <module>docs</module>
+        <!--<module>docs</module>-->
         <module>features</module>
         <module>dom</module>
         <module>binding</module>
